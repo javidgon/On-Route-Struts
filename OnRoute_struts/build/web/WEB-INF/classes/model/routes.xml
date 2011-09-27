@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ROUTES">
+    <resultMap id="routeResult" class="com.myapp.struts.InsertRouteForm">
+        <result column="name" property="name" />
+        <result column="country" property="country" />
+        <result column="city" property="city" />
+        <result column="province" property="province" />
+        <result column="description" property="description" />
+    </resultMap>
+
+
+    <insert id="insertRoute" parameterClass="com.myapp.struts.InsertRouteForm">
+INSERT INTO Route (name,country,city,province,description) VALUES (#name#,#country#,#city#,#province#,#description#);
+    </insert>
+
+
+    <select id="getRoutes" resultMap="routeResult">
+        SELECT * FROM Route;
+
+    </select>
+    <select id="getRoute" resultMap="routeResult" parameterClass="String">
+        SELECT * FROM Route WHERE name = #name#;
+
+    </select>
+
+     <delete id="deleteRoute" parameterClass="String">
+        DELETE FROM Route WHERE name = #name#
+
+    </delete>
+
+    <update id="updateRoute" parameterClass="com.myapp.struts.EditRouteForm">
+
+        UPDATE Route SET city = #city#, province = #province#, country = #country#, description = #description# WHERE name = #name#
+
+        </update>
+
+            <select id="getRoutesForUser" parameterClass="String" resultClass = "String" >
+        Select name FROM Participant WHERE email = #email#
+    </select>
+
+
+</sqlMap>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="USERS">
+    <resultMap id="userResult" class="com.myapp.struts.RegistrationForm">
+        <result column="email" property="email" />
+        <result column="password" property="password" />
+        <result column="name" property="name" />
+        <result column="surname" property="surname" />
+        <result column="gender" property="gender" />
+        <result column="country" property="country" />
+    </resultMap>
+
+
+    <insert id="insertUser" parameterClass="com.myapp.struts.RegistrationForm">
+INSERT INTO User (email,password,name,surname,gender,country) VALUES (#email#,#password#,#name#,#surname#,#gender#,#country#);
+    </insert>
+
+    <select id="loginUser" parameterClass="list" resultClass="String" >
+        Select email FROM User
+        <dynamic prepend="WHERE">
+            <iterate open="(" close=")" conjunction="AND">
+    email= #[0]# AND password= #[1]#
+            </iterate>
+        </dynamic>
+    </select>
+
+    <select id="getUsers" resultMap="userResult">
+        SELECT * FROM User;
+
+    </select>
+
+    <select id="getUser" resultMap="userResult" parameterClass="String">
+        SELECT * FROM User WHERE email = #email#;
+
+    </select>
+
+    <delete id="deleteUser" parameterClass="String">
+        DELETE FROM User WHERE email = #email#
+
+    </delete>
+
+    <update id="updateUser" parameterClass="com.myapp.struts.EditUserForm">
+
+        UPDATE User SET name = #name#, surname = #surname#, password = #password#, gender = #gender#, country = #country# WHERE email = #email#
+
+    </update>
+
+
+
+</sqlMap>

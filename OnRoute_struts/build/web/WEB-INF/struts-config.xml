@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+    <form-beans>
+        <form-bean name="EditUserForm" type="com.myapp.struts.EditUserForm"/>
+        <form-bean name="EditRouteForm" type="com.myapp.struts.EditRouteForm"/>
+        <form-bean name="ParticipantForm" type="com.myapp.struts.ParticipantForm"/>
+        <form-bean name="InsertRouteForm" type="com.myapp.struts.InsertRouteForm"/>
+        <form-bean name="LoginForm" type="com.myapp.struts.LoginForm"/>
+        <form-bean name="RegistrationForm" type="com.myapp.struts.RegistrationForm"/>
+    </form-beans>
+
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+        <forward name="welcome"  path="/Welcome.do"/>
+    </global-forwards>
+
+    <action-mappings>
+        <action name="RegistrationForm" path="/registration" scope="request" type="com.myapp.struts.RegistrationAction" validate="false">
+            <forward name="success" path="/success.jsp"/>
+            <forward name="failure" path="/registration.jsp"/>
+        </action>
+        <action name="LoginForm" path="/login" scope="request" type="com.myapp.struts.LoginAction" validate="false">
+            <forward name="success" path="/index.jsp"/>
+            <forward name="failure" path="/login.jsp"/>
+            <forward name="failurelogin" path="/login.jsp"/>
+        </action>
+        <action name="InsertRouteForm" path="/insertRoute" scope="request" type="com.myapp.struts.InsertRouteAction" validate="false">
+            <forward name="success" path="/system/successRoute.jsp"/>
+            <forward name="failure" path="/system/insertRoute.jsp"/>
+        </action>
+        <action name="InsertRouteForm" path="/logout" scope="request" type="com.myapp.struts.logOutAction" validate="false">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <action path="/users" type="com.myapp.struts.UsersAction">
+            <forward name="success" path="/system/users.jsp"/>
+        </action>
+        <action path="/routes" type="com.myapp.struts.RoutesAction">
+            <forward name="success" path="/system/routes.jsp"/>
+        </action>
+        <action path="/showRoute" type="com.myapp.struts.ShowRouteAction">
+            <forward name="success" path="/system/showRoute.jsp"/>
+        </action>
+        <action name="ParticipantForm" path="/join" scope="request" type="com.myapp.struts.JoinAction" validate="false">
+            <forward name="success" path="/system/showRoute.jsp"/>
+        </action>
+        <action name="ParticipantForm" path="/unsubscribe" scope="request" type="com.myapp.struts.UnsubscribeAction" validate="false">
+            <forward name="success" path="/system/showRoute.jsp"/>
+        </action>
+        <action path="/index" type="com.myapp.struts.indexAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <action path="/destroyRoute" type="com.myapp.struts.DestroyRouteAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <action input="/editRoute" name="InsertRouteAction" path="/editRoute" scope="request" type="com.myapp.struts.EditRouteAction">
+            <forward name="success" path="/system/editRoute.jsp"/>
+        </action>
+        <action path="/editRouteConfirmation" name="EditRouteForm" type="com.myapp.struts.EditRouteConfirmationAction" scope="request" validate="false">
+            <forward name="success" path="/index.jsp"/>
+            <forward name="failure" path="/system/editRoute.jsp"/>
+        </action>
+        <action path="/showUser" type="com.myapp.struts.ShowUserAction">
+            <forward name="success" path="/system/showUser.jsp"/>
+        </action>
+        <action path="/destroyUser" type="com.myapp.struts.DestroyUserAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+        <action name="EditUserForm" path="/editUser" scope="request" type="com.myapp.struts.EditUserAction" validate="false">
+            <forward name="success" path="/system/editUser.jsp"/>
+        </action>
+        <action name="EditUserForm" path="/editUserConfirmation" scope="request" type="com.myapp.struts.EditUserConfirmationAction" validate="false">
+            <forward name="success" path="/index.jsp"/>
+            <forward name="failure" path="/system/editUser.jsp"/>
+        </action>
+        <action path="/loginAccess" type="com.myapp.struts.LoginAccessAction">
+            <forward name="success" path="/login.jsp"/>
+        </action>
+        <action path="/signupAccess" type="com.myapp.struts.SignupAccess">
+            <forward name="success" path="/registration.jsp"/>
+        </action>
+        <action path="/insertRouteAccess" type="com.myapp.struts.insertRouteAccess">
+            <forward name="success" path="/system/insertRoute.jsp"/>
+        </action>
+        <action path="/validation" type="ValidationAction">
+            <forward name="success" path="/registration.jsp"/>
+        </action>
+    </action-mappings>
+    
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+
+    <message-resources parameter="com/myapp/struts/ApplicationResource"/>    
+    
+    <!-- ========================= Tiles plugin ===============================-->
+    <!--
+    This plugin initialize Tiles definition factory. This later can takes some
+    parameters explained here after. The plugin first read parameters from
+    web.xml, thenoverload them with parameters defined here. All parameters
+    are optional.
+    The plugin should be declared in each struts-config file.
+    - definitions-config: (optional)
+    Specify configuration file names. There can be several comma
+    separated file names (default: ?? )
+    - moduleAware: (optional - struts1.1)
+    Specify if the Tiles definition factory is module aware. If true
+    (default), there will be one factory for each Struts module.
+    If false, there will be one common factory for all module. In this
+    later case, it is still needed to declare one plugin per module.
+    The factory will be initialized with parameters found in the first
+    initialized plugin (generally the one associated with the default
+    module).
+    true : One factory per module. (default)
+    false : one single shared factory for all modules
+    - definitions-parser-validate: (optional)
+    Specify if xml parser should validate the Tiles configuration file.
+    true : validate. DTD should be specified in file header (default)
+    false : no validation
+
+    Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />      
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+    
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+  
+</struts-config>

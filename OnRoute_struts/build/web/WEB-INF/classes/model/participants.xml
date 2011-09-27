@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap
+PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PARTICIPANTS">
+    <resultMap id="participantResult" class="com.myapp.struts.ParticipantForm">
+        <result column="name" property="name" />
+        <result column="email" property="email" />
+    </resultMap>
+
+
+    <insert id="join" parameterClass="com.myapp.struts.ParticipantForm">
+INSERT INTO Participant (email,name) VALUES (#email#,#name#);
+    </insert>
+
+    <delete id="unsubscribe" parameterClass="com.myapp.struts.ParticipantForm">
+        DELETE FROM Participant WHERE email = #email# AND name = #name#
+
+    </delete>
+
+    <select id="getParticipant" parameterClass="list" resultClass="String" >
+        Select email FROM Participant
+        <dynamic prepend="WHERE">
+        <iterate open="(" close=")" conjunction="AND">
+    email= #[0]# AND name= #[1]#
+            </iterate>
+        </dynamic>
+    </select>
+
+    <select id="getParticipants" parameterClass="String" resultClass = "String" >
+        Select email FROM Participant WHERE name = #name#
+    </select>
+
+    <delete id="deleteParticipation" parameterClass="String">
+        DELETE FROM Participant WHERE name = #name# OR email = #name#
+
+    </delete>
+
+
+</sqlMap>
